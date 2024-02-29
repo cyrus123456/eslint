@@ -163,7 +163,7 @@ module.exports = {
       }
     }],
     'padded-blocks': [2, 'never'], //要求或禁止块内填充
-    'quotes': [2, 'single', {
+    'quotes': [2, 'single', {//引号
       'avoidEscape': true,
       'allowTemplateLiterals': true
     }],
