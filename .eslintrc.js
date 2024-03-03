@@ -22,8 +22,15 @@ module.exports = {
       "singleline": 3,
       "multiline": {
         "max": 3,
-        "allowFirstLine": false
+        // "allowFirstLine": false
       }
+    }],
+    // 强制第一个属性的位置(属性换行)
+    'vue/first-attribute-linebreak': [2, {
+      // 单行时，第一属性前不允许使用换行符
+      singleline: 'beside',
+      // 多行时，第一属性前必须使用换行符
+      multiline: 'below',
     }],
     "vue/singleline-html-element-content-newline": "off",
     "vue/multiline-html-element-content-newline": "off",
@@ -198,6 +205,12 @@ module.exports = {
       objectsInObjects: false
     }],
     'array-bracket-spacing': [2, 'never'],
+    // 新旧分隔
+    // ____________________________________________________________________________________________________________
+    // ____________________________________________________________________________________________________________
+    // ____________________________________________________________________________________________________________
+    // ____________________________________________________________________________________________________________
+    // ____________________________________________________________________________________________________________
     'accessor-pairs': 2,
     'arrow-spacing': [2, {
       'before': true,
@@ -481,6 +494,7 @@ module.exports = {
       objectsInObjects: false
     }],
     'array-bracket-spacing': [2, 'never'],
+
     'vue/multi-word-component-names': [0], // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     'vue/html-self-closing': [0], // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     'vue/attribute-hyphenation': [0], // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
