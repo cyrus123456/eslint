@@ -1,15 +1,21 @@
 module.exports = {
   root: true,
   parser: 'babel-eslint',
+  // parser: "vue-eslint-parser",
   parserOptions: {
-    sourceType: 'module'
+    sourceType: 'module',
+    // "parser": "@typescript-eslint/parser",
   },
   env: {
     browser: true,
     node: true,
     es6: true,
   },
-  extends: 'eslint:recommended',
+  extends: [
+    'eslint:recommended',
+    // 'plugin:vue/vue3-recommended',
+    // 'plugin:vue/recommended',//vue2
+  ],
   // required to lint *.vue files
   plugins: [
     'html',
@@ -110,6 +116,17 @@ module.exports = {
     'no-multi-str': 2,
     'no-multiple-empty-lines': [2, {
       'max': 3
+    }],
+    // @vue/cli-plugin-eslint
+    // npm install --save-dev eslint eslint-plugin-vue
+
+    "vue/max-attributes-per-line": ["error", {
+      "singleline": {
+        "max": 3
+      },
+      "multiline": {
+        "max": 1
+      }
     }],
     'no-native-reassign': 2,
     'no-negated-in-lhs': 2,
