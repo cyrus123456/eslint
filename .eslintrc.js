@@ -115,17 +115,17 @@ module.exports = {
     'no-multi-spaces': 2,
     'no-multi-str': 2,
     'no-multiple-empty-lines': [2, {
-      'max': 3
+      'max': 1
     }],
     // @vue/cli-plugin-eslint
     // npm install --save-dev eslint eslint-plugin-vue
 
-    "vue/max-attributes-per-line": ["error", {
+    "vue/max-attributes-per-line": [2, {
       "singleline": {
         "max": 3
       },
       "multiline": {
-        "max": 1
+        "max": 3
       }
     }],
     'no-native-reassign': 2,
