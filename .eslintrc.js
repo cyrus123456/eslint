@@ -1,7 +1,8 @@
 module.exports = {
   root: true,
+  parser: 'babel-eslint',//_____________________________________________________重要
   parserOptions: {
-    parser: 'babel-eslint',
+    "parser": "vue-eslint-parser",//_____________________________________________________重要
     sourceType: 'module'
   },
   env: {
@@ -9,10 +10,13 @@ module.exports = {
     node: true,
     es6: true,
   },
-  extends: ['plugin:vue/recommended', 'eslint:recommended'],
+  extends: [
+    'plugin:vue/recommended',//_____________________________________________________重要
+    'eslint:recommended'
+  ],
   plugins: [
     'html',
-    'vue'
+    'vue'//_____________________________________________________重要
   ],
 
   // add your custom rules here
@@ -22,11 +26,11 @@ module.exports = {
       "singleline": 3,
       "multiline": {
         "max": 3,
-        // "allowFirstLine": false
+        // "allowFirstLine": false//_____________________________________________________重要
       }
     }],
     // 强制第一个属性的位置(属性换行)
-    'vue/first-attribute-linebreak': [2, {
+    'vue/first-attribute-linebreak': [2, {//_____________________________________________________重要
       // 单行时，第一属性前不允许使用换行符
       singleline: 'beside',
       // 多行时，第一属性前必须使用换行符
