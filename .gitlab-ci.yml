@@ -1,0 +1,250 @@
+# 前端项目流水线
+# 处理逻辑分为，编译，代码扫描，，打包，部署，接口扫描，健康检查，资源回收
+# 执行逻辑如下
+# 功能开发分支、hotfix分支，需要执行编译，单元测试，代码扫描
+# INT \ UAT \ Stage \ master分支，需要执行全部流程
+# 流水线执行依据分支命名，各分支命名规范
+# 功能开发分支  ：feature-xxxxxx
+# 线上问题修复  ： hotfix-xxxxx
+# 内部测试分支  ：INT
+# 验收分支  ： UAT
+# 冻结  ： Stage
+# 线上  ： master 
+# node cache
+
+
+
+variables:
+  JARPATH: ""
+  VERSION_TAG: "latest"
+  MVN_HOME: "/usr/local/maven352"
+  JAVA_HOME: "/usr/local/zulu833"
+  NODE_HOME: "/home/gitlab-runner/node-v14.15.0"
+  SONAR_SCANNER: "/usr/local/sonar_scanner"
+  
+before_script:
+   - "date"
+
+after_script:
+   - "date"
+
+cache:
+  key: $CI_BUILD_REF_SLUG
+  paths:
+    - .$node_modules/**/*
+
+
+
+stages:
+  - 开始
+  - 编译
+  - Eslint扫描
+  - Sonar扫描
+  - 检查测试结果
+  - 部署运行
+  - 健康检查
+  
+开始:
+  tags:
+    - nonveh-proposal-web
+  stage: 开始
+  script: 
+    - "echo ${CI_PROJECT_PATH}"
+    - "echo ${JARPATH}"
+    - "echo ${VERSION_TAG}"
+    - "echo ${MVN_HOME}"
+    - "echo ${JAVA_HOME}"
+    - "echo ${SONAR_SCANNER}"
+    - "echo ${SERVERPORT}"
+ # when: always
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /.*-dev$/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /.*-int/'
+      when: always
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /.*-dev$/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /.*-uat/'
+      when: always
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /.*-dev$/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /.*-stage/'
+      when: always
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /.*-dev$/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
+      when: always
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_REF_NAME  =~  /.*-int/'
+      when: always
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_REF_NAME  =~  /.*-uat/'
+      when: always
+    - when: never
+
+编译:
+  tags:
+    - nonveh-proposal-web
+  stage: 编译
+  script:
+    #- "cd ${JARPATH}"
+    - "date"
+    - "${NODE_HOME}/bin/npm install -verbose --registry=http://public.repo.sinosig.com:9081/repository/npm-public/"
+    - "date"
+    - "${NODE_HOME}/bin/npm run build:prod"
+    - "date"
+    - "tar -zcvf dist.tgz dist"
+    - "date"
+  artifacts:
+    paths:
+      - $dist/static/js/*.js
+      - $dist.tgz
+      #- $node_modules/**/*
+  # cache:
+  #   paths:
+  #     - $node_modules/**/*
+ # when: on_success
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /.*-dev$/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /.*-int/'
+      when: on_success
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /.*-dev$/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /.*-uat/'
+      when: on_success
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /.*-dev$/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /.*-stage/'
+      when: on_success
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /.*-dev$/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
+      when: on_success
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_REF_NAME  =~  /.*-int/'
+      when: on_success
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_REF_NAME  =~  /.*-uat/'
+      when: on_success
+    - when: never
+
+Eslint扫描:
+  tags:
+    - nonveh-proposal-web
+  stage: Eslint扫描
+  script: 
+    - "npm  run  test:ci"
+ # when: on_success
+  allow_failure: false
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /.*-dev$/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /.*-int/'
+      when: on_success
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /.*-dev$/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /.*-uat/'
+      when: on_success
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /.*-dev$/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /.*-stage/'
+      when: on_success
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /.*-dev$/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
+      when: on_success
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_REF_NAME  =~  /.*-int/'
+      when: on_success
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_REF_NAME  =~  /.*-uat/'
+      when: on_success
+    - when: never
+
+
+Sonar扫描:
+  tags:
+    - nonveh-proposal-web
+  stage: Sonar扫描
+  script: 
+    - "bash cidependent/sonarscan/sonar.sh ${CI_COMMIT_REF_NAME}"
+ # when: on_success
+  allow_failure: false
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /.*-dev$/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /.*-int/'
+      when: on_success
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /.*-dev$/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /.*-uat/'
+      when: on_success
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /.*-dev$/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /.*-stage/'
+      when: on_success
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /.*-dev$/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
+      when: on_success
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_REF_NAME  =~  /.*-int/'
+      when: on_success
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_REF_NAME  =~  /.*-uat/'
+      when: on_success
+    - when: never
+
+检查测试结果:
+  tags:
+    - nonveh-proposal-web
+  stage: 检查测试结果
+  script: 
+    - "chmod 755 cidependent/sonarcheckresult/sonarcheck.sh"
+    - "./cidependent/sonarcheckresult/sonarcheck.sh  -sonarurl http://10.7.129.7:9010 -projectKey yangqinghua-phq:P16_codeanalysis_P380_10_7_128_188_CI_nonveh-proposal-web_9010 "
+#  when: on_success
+  allow_failure: false
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /.*-dev$/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /.*-int/'
+      when: on_success
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /.*-dev$/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /.*-uat/'
+      when: on_success
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /.*-dev$/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /.*-stage/'
+      when: on_success
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /.*-dev$/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
+      when: on_success
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_REF_NAME  =~  /.*-int/'
+      when: on_success
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_REF_NAME  =~  /.*-uat/'
+      when: on_success
+    - when: never
+
+部署运行:
+  tags:
+    - nonveh-proposal-web
+  stage: 部署运行
+  script: 
+    - "pwd"
+#  when: on_success
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /.*-dev$/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /.*-int/'
+      when: on_success
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /.*-dev$/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /.*-uat/'
+      when: on_success
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /.*-dev$/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /.*-stage/'
+      when: on_success
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /.*-dev$/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
+      when: on_success
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_REF_NAME  =~  /.*-int/'
+      when: on_success
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_REF_NAME  =~  /.*-uat/'
+      when: on_success
+    - when: never
+
+健康检查:
+  tags:
+    - nonveh-proposal-web
+  stage: 健康检查
+  script: 
+    - "pwd"
+ # when: on_success
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /.*-dev$/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /.*-int/'
+      when: on_success
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /.*-dev$/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /.*-uat/'
+      when: on_success
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /.*-dev$/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /.*-stage/'
+      when: on_success
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /.*-dev$/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
+      when: on_success
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_REF_NAME  =~  /.*-int/'
+      when: on_success
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_REF_NAME  =~  /.*-uat/'
+      when: on_success
+    - when: never
+
+.post:
+  tags:
+    - nonveh-proposal-web
+  stage: 资源回收
+  script: 
+    #- "cd ${JARPATH} "
+    - "rm -rf dist"
+    - "rm -rf dist.tgz"
+ # when: always
+  rules:
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /.*-dev$/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /.*-int/'
+      when: on_success
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /.*-dev$/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /.*-uat/'
+      when: on_success
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /.*-dev$/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /.*-stage/'
+      when: on_success
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /.*-dev$/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
+      when: on_success
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_REF_NAME  =~  /.*-int/'
+      when: on_success
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_REF_NAME  =~  /.*-uat/'
+      when: on_success
+    - when: never
+
