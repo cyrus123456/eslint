@@ -1,8 +1,7 @@
 module.exports = {
   root: true,
-  parser: 'babel-eslint',//_____________________________________________________重要
   parserOptions: {
-    "parser": "vue-eslint-parser",//_____________________________________________________重要
+    parser: 'babel-eslint',
     sourceType: 'module'
   },
   env: {
@@ -14,16 +13,22 @@ module.exports = {
     'plugin:vue/recommended',//_____________________________________________________重要
     'eslint:recommended'
   ],
-  plugins: [
-    'html',
-    'vue'//_____________________________________________________重要
-  ],
-
   // add your custom rules here
   //it is base on https://github.com/vuejs/eslint-config-vue
   rules: {
     'no-console': (process.env.NODE_ENV === 'production') ? 'warn' : 'off',
     'no-debugger': (process.env.NODE_ENV === 'production') ? 'warn' : 'off',
+    // @vue/cli-plugin-eslint
+    // npm install --save-dev eslint eslint-plugin-vue
+
+    'vue/max-attributes-per-line': [2, {
+      'singleline': 3,
+      'multiline': 3
+      // {
+      // 'max': 3
+      // "allowFirstLine": false
+      // }
+    }],
     'accessor-pairs': 2,
     'arrow-spacing': [2, {
       'before': true,
@@ -103,17 +108,6 @@ module.exports = {
     'no-multi-str': 2,
     'no-multiple-empty-lines': [2, {
       'max': 1
-    }],
-    // @vue/cli-plugin-eslint
-    // npm install --save-dev eslint eslint-plugin-vue
-
-    'vue/max-attributes-per-line': [2, {
-      'singleline': {
-        'max': 3
-      },
-      'multiline': {
-        'max': 3
-      }
     }],
     'no-native-reassign': 2,
     'no-negated-in-lhs': 2,
