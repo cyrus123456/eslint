@@ -22,12 +22,14 @@ module.exports = {
     // npm install --save-dev eslint eslint-plugin-vue
 
     'vue/max-attributes-per-line': [2, {
-      'singleline': 3,
-      'multiline': 3
-      // {
-      // 'max': 3
-      // "allowFirstLine": false
-      // }
+      'singleline': {
+        max：3,
+        allowFirstLine: true
+      },
+      'multiline': {
+      max: 3,
+        allowFirstLine: false
+      }
     }],
     'accessor-pairs': 2,
     'arrow-spacing': [2, {
