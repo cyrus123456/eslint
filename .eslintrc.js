@@ -41,7 +41,7 @@ module.exports = {
     'camelcase': [0, {
       'properties': 'always'
     }],
-    'comma-dangle': [2, 'never'],
+    'comma-dangle': [0, 'never'],//结尾逗号
     'comma-spacing': [2, {
       'before': false,
       'after': true
@@ -60,7 +60,7 @@ module.exports = {
     'indent': [2, 2, {
       'SwitchCase': 1
     }],
-    'jsx-quotes': [2, 'prefer-single'],
+    'jsx-quotes': [0, 'prefer-single'],//单引号
     'keyword-spacing': [2, {
       'before': true,
       'after': true
@@ -161,11 +161,11 @@ module.exports = {
       }
     }],
     'padded-blocks': [2, 'never'], // 要求或禁止块内填充
-    'quotes': [2, 'single', { // 引号
+    'quotes': [0, 'single', { // 单引号
       'avoidEscape': true,
       'allowTemplateLiterals': true
     }],
-    'semi': [2, 'never'],
+    'semi': [0, 'never'],//结尾分号
     'semi-spacing': [2, {
       'before': false,
       'after': true
@@ -202,7 +202,7 @@ module.exports = {
     'eslintspace-before-blocks': [0], // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     '@typescript-eslint/no-empty-function': [0], // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     '@typescript-eslint/ban-types': [0], // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    'key-spacing': [2, { /*  "align": "value", */'align': 'colon' /* "mode": "minimum" */ }], // 对象对齐
+    // 'key-spacing': [2, { /*  "align": "value", */'align': 'colon' /* "mode": "minimum" */ }], // 对象对齐
     'no-use-before-define': ['error', { 'variables': true }], // ~~~~~~~~~~~~~~
 
     // 新旧分隔
