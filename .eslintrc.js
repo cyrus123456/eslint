@@ -49,7 +49,7 @@ module.exports = {
       'properties': 'always'
     }],
     'comma-dangle': [0, 'never'],//结尾逗号
-    'comma-spacing': [2, {
+    'comma-spacing': [2, { // 逗号间距
       'before': false,
       'after': true
     }],
@@ -64,9 +64,10 @@ module.exports = {
       'after': true
     }],
     'handle-callback-err': [2, '^(err|error)$'],
-    'indent': [2, 2, {
+    'indent': [2, 2, { //缩进
       'SwitchCase': 1
     }],
+    // 'vue/html-indent': [0, 2], //vue缩进
     'jsx-quotes': [0, 'prefer-single'],//单引号
     'keyword-spacing': [2, {
       'before': true,
@@ -177,7 +178,7 @@ module.exports = {
       'before': false,
       'after': true
     }],
-    'space-before-blocks': [2, 'always'],
+    'space-before-blocks': [2, 'always'],// 同步层级缩进
     'space-before-function-paren': [2, 'never'],
     'space-in-parens': [2, 'never'],
     'space-infix-ops': 2,
@@ -185,7 +186,7 @@ module.exports = {
       'words': true,
       'nonwords': false
     }],
-    'spaced-comment': [2, 'always', {
+    'spaced-comment': [2, 'always', {//注释空格
       'markers': ['global', 'globals', 'eslint', 'eslint-disable', '*package', '!', ',']
     }],
     'template-curly-spacing': [2, 'never'],
