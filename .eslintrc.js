@@ -211,7 +211,7 @@ module.exports = {
     '@typescript-eslint/no-empty-function': [0], // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     '@typescript-eslint/ban-types': [0], // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // 'key-spacing': [2, { /*  "align": "value", */'align': 'colon' /* "mode": "minimum" */ }], // 对象对齐
-    'no-use-before-define': ['error', { 'variables': true }], // ~~~~~~~~~~~~~~
+    'no-use-before-define': ['error', { 'variables': true, "functions": false  }], // ~~~~~~~~~~~~~~
 
     // 新旧分隔
     // ____________________________________________________________________________________________________________
