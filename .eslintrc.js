@@ -225,5 +225,6 @@ module.exports = {
     'vue/name-property-casing': ['error', 'PascalCase'],
     'vue/no-v-html': 'off',
     'vue/attributes-order': 'off',//属性排序
+    "eslint no-unsafe-optional-chaining": "error",//可选连
   }
 }
