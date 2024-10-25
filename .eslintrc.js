@@ -226,5 +226,6 @@ module.exports = {
     'vue/no-v-html': 'off',
     'vue/attributes-order': 'off',//属性排序
     "eslint no-unsafe-optional-chaining": "error",//可选连
+    "@typescript-eslint/no-explicit-any": "error",//不允许any
   }
 }
