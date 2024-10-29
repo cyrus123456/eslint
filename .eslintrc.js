@@ -33,7 +33,7 @@ module.exports = {
       'singleline': 3,
       'multiline': {
         max: 3,
-        allowFirstLine: false
+        // allowFirstLine: false //vue3需要注释
       }
     }],
     'accessor-pairs': 2,
