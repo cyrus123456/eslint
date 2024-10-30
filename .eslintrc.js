@@ -28,12 +28,13 @@ module.exports = {
     'no-debugger': (process.env.NODE_ENV === 'production') ? 'warn' : 'off',
     // @vue/cli-plugin-eslint
     // npm install --save-dev eslint eslint-plugin-vue
-		// 配合vscode设置
-		// "[vue]": {
-		// 	"editor.defaultFormatter": "dbaeumer.vscode-eslint"
-		// },
-		"vue/html-indent": [1, "tab"],
-		"vue/html-closing-bracket-newline":[2],
+    // 配合vscode设置
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    // "[vue]": {
+    // 	"editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    // },
+    "vue/html-indent": [1, "tab"],
+    "vue/html-closing-bracket-newline": [2],//标签闭合换行
     'vue/max-attributes-per-line': [2, {
       'singleline': 3,
       'multiline': {
