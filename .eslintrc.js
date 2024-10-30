@@ -21,6 +21,30 @@ module.exports = {
       }
     }
   },
+  //rules: {
+  // 配合vscode设置
+    //"editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    // "[vue]": {
+    // 	"editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    // },
+
+    //"vue/attribute-hyphenation": "off",
+		//"vue/v-on-event-hyphenation": "off",
+		//"prettier/prettier": [0],
+		//"vue/max-attributes-per-line": [
+		//	2,
+		//	{
+		//		singleline: 3,
+		//		multiline: {
+		//			max: 3
+		//		}
+		//	}
+		//],
+		//"vue/html-indent": [1, "tab"],
+		//indent: [1, "tab"],
+		//"vue/html-closing-bracket-newline": [2],//标签闭合换行
+
+  //},
   // add your custom rules here
   //it is base on https://github.com/vuejs/eslint-config-vue
   rules: {
