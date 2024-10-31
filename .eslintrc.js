@@ -44,6 +44,7 @@ module.exports = {
 	        //"vue/script-indent": [1, "tab"],
 		//indent: [1, "tab"],
 		//"vue/html-closing-bracket-newline": [2],//标签闭合换行
+	       //'vue/multiline-html-element-content-newline': [2], // 强制多行元素内容换行
 
   //},
   // add your custom rules here
@@ -61,6 +62,7 @@ module.exports = {
     "vue/html-indent": [1, "tab"],
     "vue/script-indent": [1, "tab"],
     "vue/html-closing-bracket-newline": [2],//标签闭合换行
+    'vue/multiline-html-element-content-newline': [2], // 强制多行元素内容换行
     'vue/max-attributes-per-line': [2, {
       'singleline': 3,
       'multiline': {
