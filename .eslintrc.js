@@ -41,6 +41,7 @@ module.exports = {
 		//	}
 		//],
 		//"vue/html-indent": [1, "tab"],
+	        //"vue/script-indent": [1, "tab"],
 		//indent: [1, "tab"],
 		//"vue/html-closing-bracket-newline": [2],//标签闭合换行
 
@@ -58,6 +59,7 @@ module.exports = {
     // 	"editor.defaultFormatter": "dbaeumer.vscode-eslint"
     // },
     "vue/html-indent": [1, "tab"],
+    "vue/script-indent": [1, "tab"],
     "vue/html-closing-bracket-newline": [2],//标签闭合换行
     'vue/max-attributes-per-line': [2, {
       'singleline': 3,
