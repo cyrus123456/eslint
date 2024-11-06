@@ -2,3 +2,52 @@ build/*.js
 src/assets
 public
 dist
+
+vite.config.ts
+www/*
+
+# 忽略 node_modules 文件夹  
+node_modules/  
+
+# 忽略构建输出目录  
+dist/  
+
+# 忽略本地开发环境的配置文件  
+.env  
+.env.local  
+.env.*.local  
+
+# 忽略特定的 Vue 文件  
+src/assets/*.vue  
+
+# 忽略所有测试文件  
+**/*.spec.js  
+**/*.test.js  
+
+# 忽略临时文件  
+tmp/  
+temp/  
+
+# 忽略特定的文件类型  
+*.min.js  
+*.map 
+
+# 忽略构建输出
+/dist/
+/build/
+
+# 忽略依赖
+/node_modules/
+
+# 忽略配置和脚本
+/config/
+/scripts/
+
+# 忽略测试文件
+*.test.js
+*.spec.js
+
+# 忽略特定目录
+/src/assets/
+/src/components/legacy/
+
